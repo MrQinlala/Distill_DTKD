@@ -38,7 +38,7 @@ from utils import get_tokenizer, get_model
 
 from distillm import forward_kl, reverse_kl, js_distance, tv_distance
 from distillm import skewed_forward_kl, skewed_reverse_kl
-from distillm import decoupled_temp_kl,AKL
+from distillm import AKL,TDKL_HEG_FKL,TDKL
 from distillm import SampleGenerator, ReplayBuffer
 
 from rouge_metric import compute_metrics
@@ -181,18 +181,24 @@ def get_distil_loss(args, tokenizer, model, teacher_model, model_batch, no_model
             distil_loss = skewed_forward_kl(args,logits, teacher_logits, no_model_batch, lam=args.skew_alpha)
         elif "srkl" in args.type:
             distil_loss = skewed_reverse_kl(args,logits, teacher_logits, no_model_batch, lam=args.skew_alpha)
+       #√
         elif "jsd" in args.type:
             distil_loss = js_distance(args,logits, teacher_logits, no_model_batch)
         elif "tvd" in args.type:
             distil_loss = tv_distance(args,logits, teacher_logits, no_model_batch)
+        # √
         elif "fkl" in args.type or args.type == "kd":
             distil_loss = forward_kl(args,logits, teacher_logits, no_model_batch)
         elif "rkl" in args.type:
             distil_loss = reverse_kl(args,logits, teacher_logits, no_model_batch)
-        elif "tdkl" in args.type:
-            distil_loss = decoupled_temp_kl(args,logits,teacher_logits,no_model_batch)
+        # elif "tdkl" in args.type:
+        #     distil_loss = decoupled_temp_kl(args,logits,teacher_logits,no_model_batch)
         elif "akl" in args.type:
             distil_loss = AKL(args, logits, teacher_logits,no_model_batch)
+        elif "tdkl" in args.type:
+            distil_loss = TDKL(args, logits, teacher_logits, no_model_batch)
+        elif "heg" in args.type:
+            distil_loss = TDKL_HEG_FKL(args, logits, teacher_logits, no_model_batch) 
         else:
             raise NotImplementedError
     return distil_loss
@@ -223,10 +229,24 @@ def logarithmic_step_scheduler(epoch, max_epochs):
     elif epoch < max_epochs * 0.6:   # 第二阶段：增强探索
         T_s = 2.0
     else:                            # 第三阶段：精炼提升
-        T_s = 0.6
+        T_s = 1.0
     # T_s = max(T_s, 1.0)
     return T_t, T_s
 #温度调度3
+def cosine_annealing_scheduler(epoch, max_epochs):
+    """教师和学生的温度采用余弦退火方式"""
+    import math
+
+    # 教师温度：从3.0降至1.0，使用余弦曲线
+    T_t = 1.0 + 2.0 * (1 + math.cos(math.pi * epoch / max_epochs)) / 2
+    
+    # 学生温度：先上升再下降，形成中间探索阶段
+    if epoch < max_epochs * 0.5:
+        T_s = 1.0 + 1.0 * (epoch / (max_epochs * 0.5))
+    else:
+        T_s = 2.0 - 1.0 * ((epoch - max_epochs * 0.5) / (max_epochs * 0.5))
+    
+    return T_t, T_s
 
 def get_teacher_lm_loss(args, tokenizer, model, teacher_model, model_batch):
     with torch.no_grad():

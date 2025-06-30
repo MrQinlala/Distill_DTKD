@@ -157,9 +157,9 @@ LR=0.0001
 
 # length
 MAX_LENGTH=512
-TYPE=rkl
+TYPE=jsd
 # runtime
-SAVE_PATH="/root/autodl-tmp/save/results/gpt2/train/${TYPE}/${CKPT_NAME}-final"
+SAVE_PATH="/root/autodl-tmp/save/results/gpt2/train/${TYPE}/${CKPT_NAME}-withours"
 
 # seed
 SEED=10

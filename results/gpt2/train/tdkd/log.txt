@@ -1,0 +1,8 @@
+
+
+============================== EXP at 2025-06-30 09:29:57 ==============================
+dev | avg_loss: 3.068734375 | {'exact_match': 0.0, 'rougeL': 6.1564}
+train | epoch   0 | Iter:      4/114340 | global iter:      4/114340 | loss: -6241.4476 | ds_loss: -6241.4476 | lr: 5.0000e-04 | scale:  2048.0000 | micro time: 0.130 | step time: 0.183| tea_temp: 5.000| stu temp: 2.000
+train | epoch   0 | Iter:      8/114340 | global iter:      8/114340 | loss: -7670.5330 | ds_loss: -7670.5330 | lr: 5.0000e-04 | scale:   128.0000 | micro time: 0.129 | step time: 0.129| tea_temp: 5.000| stu temp: 2.000
+train | epoch   0 | Iter:     12/114340 | global iter:     12/114340 | loss: -11607.6854 | ds_loss: -11607.6854 | lr: 5.0000e-04 | scale:     8.0000 | micro time: 0.131 | step time: 0.130| tea_temp: 5.000| stu temp: 2.000
+train | epoch   0 | Iter:     16/114340 | global iter:     16/114340 | loss: -9431.4579 | ds_loss: -9431.4579 | lr: 5.0000e-04 | scale:     1.0000 | micro time: 0.130 | step time: 0.135| tea_temp: 5.000| stu temp: 2.000

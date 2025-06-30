@@ -36,16 +36,16 @@ BATCH_SIZE=8
 
 EPOCHS=10
 TRAIN_NUM=10000
-SAVE_INTERVAL=2
+SAVE_INTERVAL=4
 GRAD_ACC=1
 SAVE_INTERVAL_VAL=$(( TRAIN_NUM / BATCH_SIZE * EPOCHS / GRAD_ACC / SAVE_INTERVAL ))
-LR=0.0005
+LR=0.0002
 EVAL_BATCH_SIZE=32
 # length
 MAX_LENGTH=512
-TYPE=rkl
+TYPE=jsd
 # runtime
-SAVE_PATH="/root/autodl-tmp/save/results/gpt2/train/${TYPE}/${CKPT_NAME}-final"
+SAVE_PATH="/root/autodl-tmp/save/results/gpt2/train/${TYPE}/${CKPT_NAME}-withours2"
 
 # seed
 SEED=10

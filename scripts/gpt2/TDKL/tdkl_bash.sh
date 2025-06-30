@@ -45,7 +45,7 @@ SAVE_INTERVAL_VAL=$(( TRAIN_NUM / BATCH_SIZE * EPOCHS / GRAD_ACC / SAVE_INTERVAL
 # length
 MAX_LENGTH=512
 # runtime
-SAVE_PATH="/root/autodl-tmp/save/results/gpt2/train/real_akl/${CKPT_NAME}-temp3"
+SAVE_PATH="/root/autodl-tmp/save/results/gpt2/train/tdkl/${CKPT_NAME}"
 # seed
 SEED=10
 
@@ -95,7 +95,7 @@ OPTS+=" --seed ${SEED}"
 OPTS+=" --deepspeed"
 OPTS+=" --deepspeed_config ${BASE_PATH}/configs/deepspeed/ds_config.json"
 # type
-OPTS+=" --type akl"
+OPTS+=" --type tdkl"
 # gen
 OPTS+=" --do-sample"
 OPTS+=" --top-k 0"

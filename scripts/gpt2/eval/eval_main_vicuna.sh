@@ -17,17 +17,16 @@ DISTRIBUTED_ARGS="--nproc_per_node $GPUS_PER_NODE \
 # model
 BASE_PATH="/root/kl/distillm"
 # model
-CKPT_NAME="gpt-medium"
+CKPT_NAME="gpt-base"
 # CKPT="/root/autodl-tmp/save/results/gpt2/train/sft/gpt2-base/e10-bs8-lr0.0001-G1-N1-NN1/12500"
-CKPT="/root/autodl-tmp/save/results/gpt2/train/real_akl/gpt2-medium-final/12500"
-
+CKPT="/root/autodl-tmp/save/results/gpt2/train/rkl/gpt2-base-withours/6250"
 # data
 DATA_NAMES="vicuna"
 DATA_DIR="${BASE_PATH}/data/vicuna"
 # hp
 EVAL_BATCH_SIZE=16
 # runtime
-SAVE_PATH="/root/autodl-tmp/save/results/gpt2/eval_main/real_akl/${CKPT_NAME}/${DATA_NAMES}"
+SAVE_PATH="/root/autodl-tmp/save/results/gpt2/eval_main/rkl/${CKPT_NAME}-withours/${DATA_NAMES}"
 TYPE="eval_main"
 
 
